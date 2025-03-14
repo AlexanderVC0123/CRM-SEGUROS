@@ -1,0 +1,49 @@
+HELP.md
+# 🔹 Ignorar archivos de compilación y dependencias de Maven
+target/
+*.class
+*.war
+*.jar
+
+# 🔹 Ignorar configuraciones de IntelliJ IDEA, VS Code y NetBeans
+.idea/
+.vscode/
+*.iws
+*.iml
+*.ipr
+/.nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+# 🔹 Ignorar archivos de caché y temporales
+*.log
+*.tmp
+*.DS_Store
+Thumbs.db
+
+# 🔹 Ignorar configuraciones específicas de STS (Spring Tool Suite)
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings/
+.springBeans/
+.sts4-cache/
+
+# 🔹 Ignorar credenciales sensibles (PostgreSQL, JWT, etc.)
+src/main/resources/application.properties
+src/main/resources/application.yml
+.env
+
+# 🔹 Ignorar dependencias generadas por Maven
+.mvn/
+!mvnw
+!mvnw.cmd
+
+# 🔹 Ignorar archivos de compilación en `src/`
+!**/src/main/**/target/
+!**/src/test/**/target/
+!**/src/main/**/build/
+!**/src/test/**/build/
