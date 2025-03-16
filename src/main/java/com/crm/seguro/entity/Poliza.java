@@ -1,14 +1,9 @@
 package com.crm.seguro.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "polizas")
@@ -16,9 +11,22 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Poliza {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String tipo; //Vida, auto, hogar, etc
+    private String tipo;
+    private double montoAsegurado;
+    private LocalDate fechaInicio;
+    private LocalDate fechaFin;
+    private double primaMensual;
+
+    @ManyToOne
+    @JoinColumn(name = "cliente_id", nullable = false)
+    private Cliente cliente;
+
+    @ManyToOne
+    @JoinColumn(name = "agente_id", nullable = false)
+    private Agente agente;
 }
