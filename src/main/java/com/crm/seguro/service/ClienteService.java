@@ -4,8 +4,12 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.crm.seguro.dto.ClienteDTO;
+import com.crm.seguro.dto.DTOMapper;
 import com.crm.seguro.entity.Cliente;
 import com.crm.seguro.repository.ClienteRepository;
 
@@ -14,8 +18,9 @@ public class ClienteService {
     @Autowired
     private ClienteRepository clienteRepository;
 
-    public List<Cliente> obtenerTodos(){
-        return clienteRepository.findAll();
+    public Page<ClienteDTO> obtenerTodos(Pageable pageable){
+        return clienteRepository.findAll(pageable)
+        .map(DTOMapper::toClienteDTO);
     }
 
     public Optional<Cliente> obtenerPorId(Long id) {

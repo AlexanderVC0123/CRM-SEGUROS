@@ -28,7 +28,7 @@ public class Agente {
     private String email;
     private String telefono;
 
-    @OneToMany(mappedBy = "agente", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "agente")
     private List<Poliza> polizas; //Un agente tiene muchas polizas
 
 }

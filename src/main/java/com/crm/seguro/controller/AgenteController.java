@@ -1,11 +1,14 @@
 package com.crm.seguro.controller;
 
+import com.crm.seguro.dto.AgenteDTO;
 import com.crm.seguro.entity.Agente;
 import com.crm.seguro.service.AgenteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+//import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -17,8 +20,8 @@ public class AgenteController {
     private AgenteService agenteService;
 
     @GetMapping
-    public List<Agente> obtenerAgentes() {
-        return agenteService.obtenerTodos();
+    public Page<AgenteDTO> obtenerAgentes(Pageable pageable) {
+        return agenteService.obtenerTodos(pageable);
     }
 
     @GetMapping("/{id}")
