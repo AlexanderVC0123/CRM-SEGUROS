@@ -13,7 +13,7 @@ public class PolizaDTO {
     private Long id;
     @NotNull(message = "El tipo de póliza es obligatorio")
     private String tipo;
-    @Positive(message = "El monto aseguradi debe ser mayor a 0")
+    @Positive(message = "El monto asegurado debe ser mayor a 0")
     private double montoAsegurado;
     @NotNull(message = "La fecha de inicio es obligatoria")
     private LocalDate fechaInicio;

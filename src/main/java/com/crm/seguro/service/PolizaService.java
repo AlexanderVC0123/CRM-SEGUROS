@@ -4,6 +4,8 @@ import com.crm.seguro.dto.DTOMapper;
 import com.crm.seguro.dto.PolizaDTO;
 import com.crm.seguro.entity.Poliza;
 import com.crm.seguro.repository.PolizaRepository;
+import com.crm.seguro.repository.UsuarioRepository;
+import com.crm.seguro.security.JwtUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -28,16 +30,25 @@ public class PolizaService {
                 .map(DTOMapper::toPolizaDTO);  //Spring manejará automáticamente la paginación.
     }
 
+    public Page<PolizaDTO> obtenerTodasPorUsuario(Long usuarioId, Pageable pageable){
+        return polizaRepository.findByUsuarioId(usuarioId, pageable).map(DTOMapper::toPolizaDTO);
+    } 
+
     public Optional<PolizaDTO> obtenerPorId(Long id) {
         return polizaRepository.findById(id).map(DTOMapper::toPolizaDTO);
+    }
+
+    public Optional<PolizaDTO> obtenerPorIdYUsuario(Long id, Long usuarioId){
+        return polizaRepository.findByIdAndUsuarioId(id, usuarioId).map(DTOMapper::toPolizaDTO);
     }
 
     public Poliza guardarPoliza(Poliza poliza) {
         return polizaRepository.save(poliza);
     }
 
-    public void eliminarPoliza(Long id) {
-        polizaRepository.deleteById(id);
+    public void eliminarPoliza(Long id, Long usuarioId) {
+        //polizaRepository.deleteById(id);
+        polizaRepository.findByIdAndUsuarioId(id, usuarioId).ifPresent(polizaRepository::delete);
     }
 }
 

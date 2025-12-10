@@ -3,10 +3,11 @@ package com.crm.seguro.dto;
 import com.crm.seguro.entity.Agente;
 import com.crm.seguro.entity.Cliente;
 import com.crm.seguro.entity.Poliza;
+import com.crm.seguro.entity.Usuario;
 
 public class DTOMapper {
 
-    public static PolizaDTO toPolizaDTO(Poliza poliza){
+    public static PolizaDTO toPolizaDTO(Poliza poliza) {
         PolizaDTO dto = new PolizaDTO();
         dto.setId(poliza.getId());
         dto.setTipo(poliza.getTipo());
@@ -16,11 +17,27 @@ public class DTOMapper {
         dto.setPrimaMensual(poliza.getPrimaMensual());
         dto.setClienteId(poliza.getCliente().getId());
         dto.setAgenteId(poliza.getAgente().getId());
-
         return dto;
     }
 
-    public static ClienteDTO toClienteDTO(Cliente cliente){
+    public static Poliza toPoliza(PolizaDTO polizaDTO, Cliente cliente, Agente agente, Usuario usuario) {
+
+        Poliza poliza = new Poliza();
+        poliza.setId(polizaDTO.getId());
+        poliza.setTipo(polizaDTO.getTipo());
+        poliza.setMontoAsegurado(polizaDTO.getMontoAsegurado());
+        poliza.setFechaInicio(polizaDTO.getFechaInicio());
+        poliza.setFechaFin(polizaDTO.getFechaFin());
+        poliza.setPrimaMensual(polizaDTO.getPrimaMensual());
+
+        poliza.setCliente(cliente);
+        poliza.setAgente(agente);
+        poliza.setUsuario(usuario);
+
+        return poliza;
+    }
+
+    public static ClienteDTO toClienteDTO(Cliente cliente) {
         ClienteDTO dto = new ClienteDTO();
         dto.setId(cliente.getId());
         dto.setNombre(cliente.getNombre());
@@ -37,5 +54,5 @@ public class DTOMapper {
         dto.setTelefono(agente.getTelefono());
         return dto;
     }
-    
+
 }

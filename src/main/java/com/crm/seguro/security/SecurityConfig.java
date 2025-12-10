@@ -12,7 +12,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import com.crm.seguro.security.JwtAuthFilter;
 
 
 @Configuration
@@ -33,7 +32,7 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable)// Nueva forma de deshabilitar CSRF
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/auth/login").permitAll() // Permitir acceso a /auth/login sin autenticación
+                .requestMatchers("/auth/login", "/auth/register").permitAll() // Permitir acceso a /auth/login sin autenticación
                 .requestMatchers("/api/polizas/**").authenticated() // Requiere autenticación
                 .anyRequest().authenticated()
                 )
