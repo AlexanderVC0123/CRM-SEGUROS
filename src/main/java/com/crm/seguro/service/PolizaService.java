@@ -4,8 +4,6 @@ import com.crm.seguro.dto.DTOMapper;
 import com.crm.seguro.dto.PolizaDTO;
 import com.crm.seguro.entity.Poliza;
 import com.crm.seguro.repository.PolizaRepository;
-import com.crm.seguro.repository.UsuarioRepository;
-import com.crm.seguro.security.JwtUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,7 +21,6 @@ public class PolizaService {
 
     @Autowired
     private PolizaRepository polizaRepository;
-
 
     public Page<PolizaDTO> obtenerTodas(Pageable pageable) {
         return polizaRepository.findAll(pageable) //Ahora el método devuelve Page<PolizaDTO> en lugar de List<PolizaDTO>.

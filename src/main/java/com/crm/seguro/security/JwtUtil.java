@@ -1,12 +1,9 @@
 package com.crm.seguro.security;
 
+import java.nio.charset.StandardCharsets;
 import java.security.Key;
-import java.util.Base64;
 import java.util.Date;
 import java.util.function.Function;
-
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -33,8 +30,7 @@ public class JwtUtil {
     @PostConstruct
     public void init() {
         // Convertimos la cadena en bytes y generamos la llave HMAC
-        byte[] decodedKey = Base64.getEncoder().encode(secret.getBytes());
-        this.secretKey = new SecretKeySpec(decodedKey, SignatureAlgorithm.HS256.getJcaName());
+        this.secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
     }
 
     public String generateToken(String username) {
@@ -63,13 +59,13 @@ public class JwtUtil {
         return (extractUsername(token).equals(username) && !isTokenExpired(token));
     }
 
-    public boolean isTokenExpired(String token) {
-        return extractExpiration(token).before(new Date());
-    }
-
     public boolean validateToken(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+    }
+    
+    public boolean isTokenExpired(String token) {
+        return extractExpiration(token).before(new Date());
     }
 
 }

@@ -17,7 +17,6 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,15 +24,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 //import java.util.List;
 
-
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/polizas")
 @CrossOrigin(origins = "*")
-@RequiredArgsConstructor
 public class PolizaController {
 
-    @Autowired
-    private PolizaService polizaService;
+    
+    private final PolizaService polizaService;
 
     private final UsuarioRepository usuarioRepository;
 

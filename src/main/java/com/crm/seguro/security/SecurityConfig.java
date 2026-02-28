@@ -29,9 +29,13 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
-        http.csrf(AbstractHttpConfigurer::disable)// Nueva forma de deshabilitar CSRF
+        http
+            .cors(cors -> {}) //Habilidta CORS usando CorsCinfigurationSource
+            .csrf(AbstractHttpConfigurer::disable)// Nueva forma de deshabilitar CSRF
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
+                //.requestMatchers("/auth/**").permitAll() // ✅ login y register públicos
+                .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll()
                 .requestMatchers("/auth/login", "/auth/register").permitAll() // Permitir acceso a /auth/login sin autenticación
                 .requestMatchers("/api/polizas/**").authenticated() // Requiere autenticación
                 .anyRequest().authenticated()
