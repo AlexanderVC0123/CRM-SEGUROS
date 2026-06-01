@@ -41,8 +41,13 @@ public class DTOMapper {
         ClienteDTO dto = new ClienteDTO();
         dto.setId(cliente.getId());
         dto.setNombre(cliente.getNombre());
-        dto.setDireccion(cliente.getDireccion());
+        dto.setDniNie(cliente.getDniNie());
         dto.setTelefono(cliente.getTelefono());
+        dto.setEmail(cliente.getEmail());
+        dto.setDireccion(cliente.getDireccion());
+        if (cliente.getUsuario() != null) {
+            dto.setUsuarioId(cliente.getUsuario().getId());
+        }
         return dto;
     }
 
@@ -52,6 +57,14 @@ public class DTOMapper {
         dto.setNombre(agente.getNombre());
         dto.setEmail(agente.getEmail());
         dto.setTelefono(agente.getTelefono());
+        return dto;
+    }
+
+    public static UsuarioDTO toUsuarioDTO(Usuario usuario) {
+        UsuarioDTO dto = new UsuarioDTO();
+        dto.setId(usuario.getId());
+        dto.setUsername(usuario.getUsername());
+        dto.setRol(usuario.getRol());
         return dto;
     }
 

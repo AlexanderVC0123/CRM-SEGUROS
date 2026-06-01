@@ -47,5 +47,8 @@ public class PolizaService {
         //polizaRepository.deleteById(id);
         polizaRepository.findByIdAndUsuarioId(id, usuarioId).ifPresent(polizaRepository::delete);
     }
-}
 
+    public void eliminarPoliza(Long id) {
+        polizaRepository.deleteById(id);
+    }
+}

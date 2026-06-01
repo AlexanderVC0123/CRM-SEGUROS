@@ -1,6 +1,5 @@
 package com.crm.seguro.service;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +29,14 @@ public class AgenteService {
 
     public Agente guardarAgente(Agente agente){
         return agenteRepository.save(agente);
+    }
+
+    public Agente actualizarAgente(Agente existente, Agente datos){
+        existente.setNombre(datos.getNombre());
+        existente.setEmail(datos.getEmail());
+        existente.setTelefono(datos.getTelefono());
+
+        return agenteRepository.save(existente);
     }
 
     public void eliminarAgente(Long id){

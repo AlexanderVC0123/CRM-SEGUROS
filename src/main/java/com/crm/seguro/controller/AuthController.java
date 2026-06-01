@@ -5,6 +5,7 @@ import com.crm.seguro.repository.UsuarioRepository;
 import com.crm.seguro.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -51,7 +52,18 @@ public class AuthController {
 
     //Endpoint para registrar usuarios
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody Map<String,String> userData){
+    public ResponseEntity<?> register(@RequestBody Map<String,String> userData, Authentication authentication){
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(401).body(Map.of("error", "No autenticado"));
+        }
+
+        Usuario usuarioActual = usuarioRepository.findByUsername(authentication.getName())
+        .orElseThrow(() -> new RuntimeException("Usuario no encontrado en BD"));
+
+        if (usuarioActual.getRol() != com.crm.seguro.entity.Rol.ADMIN) {
+            return ResponseEntity.status(403).body(Map.of("error", "Solo el admin puede registrar usuarios"));
+        }
+
         Usuario usuario = authService.register(
             userData.get("username"), 
             userData.get("password"), 

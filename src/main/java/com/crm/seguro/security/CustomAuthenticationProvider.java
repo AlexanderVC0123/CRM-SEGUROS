@@ -11,47 +11,41 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import lombok.var;
-
 @Component
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 
     private final UserDetailsServiceImpl userDetailsServiceImpl;
     private PasswordEncoder passwordEncoder;
 
-    
-    public CustomAuthenticationProvider(UserDetailsServiceImpl userDetailsServiceImpl){
+    public CustomAuthenticationProvider(UserDetailsServiceImpl userDetailsServiceImpl) {
         this.userDetailsServiceImpl = userDetailsServiceImpl;
-
     }
 
     @Autowired
-    public void setPasswordEncoder(@Lazy PasswordEncoder passwordEncoder){
+    public void setPasswordEncoder(@Lazy PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        var username = authentication.getName(); //Ususario ingresado
-        var password = authentication.getCredentials().toString(); //Contraseña ingresada
+        // Recuperamos los datos que ha escrito el usuario en el login.
+        String username = authentication.getName();
+        String password = authentication.getCredentials().toString();
 
-        UserDetails userDetails = userDetailsServiceImpl.loadUserByUsername(username); //Buscar usuario
+        // Buscamos el usuario en la base de datos usando nuestro UserDetailsService.
+        UserDetails userDetails = userDetailsServiceImpl.loadUserByUsername(username);
 
-        if(passwordEncoder.matches(password, userDetails.getPassword())){
-            //Si todo ha ido correcto, devuelve un token autenticado
-        return new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());
-        }else{
-             throw new BadCredentialsException("Contraseña incorrecta");
+        if (passwordEncoder.matches(password, userDetails.getPassword())) {
+            // Si la contrasena coincide, Spring Security considera al usuario autenticado.
+            return new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());
         }
 
-        
-
-        //throw new UnsupportedOperationException("Unimplemented method 'authenticate'");
+        throw new BadCredentialsException("Contrasena incorrecta");
     }
 
     @Override
     public boolean supports(Class<?> authentication) {
+        // Indicamos que este provider trabaja con autenticacion usuario/contrasena.
         return UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication);
     }
-
 }
